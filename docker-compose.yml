@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+    nginx:
+        image: nginx:latest
+        volumes:
+            -   ./:/var/www
+            - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+        ports:
+            -   80:80
+        depends_on:
+            -   app
+        container_name: imarket-nginx
+        networks:
+            - imarket_network
+    app:
+        build:
+            context: .
+            dockerfile: .docker/app/Dockerfile
+        volumes:
+            -   ./:/var/www
+        container_name: imarket_app
+        depends_on:
+            -   db
+        networks:
+            - imarket_network
+
+    db:
+        image: mysql:8.0
+        container_name: imarket-db
+        environment:
+            MYSQL_DATABASE: imarket
+            MYSQL_ROOT_PASSWORD: 'root'
+        restart: unless-stopped
+        ports:
+            - '3306:3306'
+        volumes:
+            - imarketdb:/var/lib/mysql
+        networks:
+            - imarket_network
+networks:
+    imarket_network:
+
+volumes:
+    imarketdb:
