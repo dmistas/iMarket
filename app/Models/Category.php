@@ -20,7 +20,7 @@ class Category extends Model
 
         // TODO: refactor
         static::creating(function (Category $category) {
-            $this->slug = $this->slug ?? str($category->title)->slug();
+            $category->slug = $category->slug ?? str($category->title)->slug();
         });
     }
 }

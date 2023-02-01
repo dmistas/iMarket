@@ -21,7 +21,7 @@ class Brand extends Model
 
         // TODO: refactor
         static::creating(function (Brand $brand) {
-            $this->slug = $this->slug ?? str($brand->title)->slug();
+            $brand->slug = $brand->slug ?? str($brand->title)->slug();
         });
     }
 }
