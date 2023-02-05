@@ -32,17 +32,11 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict(!app()->isProduction());
 
         if (app()->isProduction()) {
-            DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection, QueryExecuted $event) {
-                logger()
-                    ->channel('telegram')
-                    ->debug('whenQueryingForLongerThan:' . $connection->totalQueryDuration());
-            });
-
             DB::listen(function (QueryExecuted $query) {
                 if ($query->time > 4 * 1000) {
                     logger()
                         ->channel('telegram')
-                        ->debug('Query longer than: ' . $query->time . " sql: " . $query->sql, $query->bindings);
+                        ->debug('Query longer than: ' . $query->time . "ms sql: " . $query->sql, $query->bindings);
                 }
             });
 
