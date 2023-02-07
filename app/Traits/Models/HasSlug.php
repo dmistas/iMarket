@@ -7,28 +7,48 @@ use Illuminate\Support\Facades\DB;
 
 trait HasSlug
 {
-    protected static function bootHasSlug()
+    protected static function bootHasSlug(): void
     {
         static::creating(function (Model $item) {
-            $item->slug = $item->slug
-                ?? str($item->{self::slugFrom()})
-                    ->append(self::calculatePostfix($item))
-                    ->slug();
+            $item->makeSlug();
         });
     }
 
-    public static function slugFrom(): string
+    protected function makeSlug()
+    {
+        $this->{$this->slugColumn()} =
+            $this->{$this->slugColumn()} ??
+            $this->slugUnique(str($this->{$this->slugFrom()})->slug()->value());
+    }
+
+    protected function slugColumn()
+    {
+        return 'slug';
+    }
+
+    protected function slugFrom(): string
     {
         return 'title';
     }
 
-    protected static function calculatePostfix(Model $item): string
+    protected function slugUnique(string $slug): string
     {
-        $countOfUse = DB::table($item->getTable())->where(self::slugFrom(), $item->{self::slugFrom()})->count();
+        $originalSlug = $slug;
+        $i = 1;
 
-        if ($countOfUse) {
-            return '_' . $countOfUse + 1;
+        while ($this->isSlugExists($slug)) {
+            $i++;
+            $slug = $originalSlug . '-' . $i;
         }
-        return '';
+
+        return $slug;
+    }
+
+    protected function isSlugExists(string $slug)
+    {
+        $query = $this->newQuery()
+            ->where($this->slugColumn(), $slug)
+            ->withoutGlobalScopes();
+        return $query->exists();
     }
 }
