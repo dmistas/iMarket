@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\ResetPasswordFormRequest;
 use App\Http\Requests\SignInFormRequest;
+use App\Http\Requests\SignUpFormRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
@@ -49,7 +50,7 @@ class AuthController extends Controller
             ->intended(route('home'));
     }
 
-    public function store(ResetPasswordFormRequest $request): RedirectResponse
+    public function store(SignUpFormRequest $request): RedirectResponse
     {
         $user = User::query()->create([
             'name' => $request->name,
