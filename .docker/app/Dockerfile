@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
       docker-php-ext-install zip && \
       pecl install xdebug-3.1.2 && \
       docker-php-ext-enable xdebug &&\
+      echo 'alias a="php artisan"' >> ~/.bashrc && \
       apt-get clean && \
       rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
