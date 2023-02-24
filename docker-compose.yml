@@ -24,6 +24,8 @@ services:
             -   db
         networks:
             - imarket_network
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
     db:
         image: mysql:8.0
@@ -38,8 +40,6 @@ services:
             - imarketdb:/var/lib/mysql
         networks:
             - imarket_network
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
 networks:
     imarket_network:
 
