@@ -15,6 +15,8 @@ class Category extends Model
     protected $fillable = [
         'title',
         'slug',
+        'on_home_page',
+        'sorting',
     ];
 
     public function products(): BelongsToMany
