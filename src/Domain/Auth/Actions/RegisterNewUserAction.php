@@ -10,11 +10,11 @@ class RegisterNewUserAction implements RegisterNewUserContract
 {
     public function __invoke(array $data)
     {
-        $user = User::query()->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+            $user = User::query()->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
 
         event(new Registered($user));
 

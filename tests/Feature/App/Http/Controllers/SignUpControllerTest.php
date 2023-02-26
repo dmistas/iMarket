@@ -64,4 +64,37 @@ class SignUpControllerTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
     }
+
+    public function test_validation_exists_email()
+    {
+        $request = SignUpFormRequest::factory()->create([
+            'email' => 'test@mail.ru',
+            'password' => '123456789',
+            'password_confirmation' => '123456789',
+        ]);
+
+        User::query()->create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+        ]);
+
+        $response = $this->post(route('register.handle'), $request);
+
+        $response->assertInvalid('email')->assertRedirect();
+    }
+
+    public function test_validation_wrong_confirmed_password()
+    {
+        $request = SignUpFormRequest::factory()->create([
+            'email' => 'test@mail.ru',
+            'password' => '123456789',
+            'password_confirmation' => '1234567890',
+        ]);
+
+        $response = $this->post(action([SignUpController::class, 'handle']), $request);
+
+        $response->assertInvalid('password');
+        $response->assertRedirect();
+    }
 }
