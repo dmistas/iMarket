@@ -6,10 +6,14 @@ RUN apt-get update && apt-get install -y \
       libpng-dev \
       libzip-dev \
       zip unzip \
-      git && \
+      git \
+      libfreetype6-dev \
+      libjpeg62-turbo-dev \
+      libpng-dev && \
+      docker-php-ext-configure gd --with-freetype --with-jpeg && \
+      docker-php-ext-install  gd && \
       docker-php-ext-install pdo_mysql && \
       docker-php-ext-install bcmath && \
-      docker-php-ext-install gd && \
       docker-php-ext-install zip && \
       pecl install xdebug-3.1.2 && \
       docker-php-ext-enable xdebug &&\
