@@ -9,7 +9,6 @@ use App\Notifications\NewUserNotification;
 use Database\Factories\UserFactory;
 use Domain\Auth\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;
