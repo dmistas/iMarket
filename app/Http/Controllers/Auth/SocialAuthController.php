@@ -17,7 +17,7 @@ class SocialAuthController extends Controller
             return Socialite::driver($driver)
                 ->redirect();
         } catch (Throwable $e) {
-            throw new DomainException('Error with social auth');
+            throw new DomainException('Error with social auth', $e->getCode(), $e);
         }
     }
 
