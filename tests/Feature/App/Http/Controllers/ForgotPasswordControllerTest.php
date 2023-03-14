@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class ForgotPasswordControllerTest extends TestCase
 {
-    private $testCredentional = ['email' => 'wrong_email@mail.ru'];
+    private array $testCredentional = ['email' => 'wrong_email@mail.ru'];
 
     public function test_page_success(): void
     {
