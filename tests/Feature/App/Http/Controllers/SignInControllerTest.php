@@ -52,4 +52,10 @@ class SignInControllerTest extends TestCase
         $this->assertGuest();
     }
 
+    public function it_logout_guest_fail()
+    {
+        $this->delete(action([SignInController::class, 'logout']))
+            ->assertRedirect(route('home'));
+    }
+
 }
