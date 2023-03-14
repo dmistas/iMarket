@@ -12,7 +12,9 @@ use Tests\TestCase;
 
 class ForgotPasswordControllerTest extends TestCase
 {
-    public function test_it_forgot_page_success()
+    private $testCredentional = ['email' => 'wrong_email@mail.ru'];
+
+    public function test_page_success(): void
     {
         $this->get(action([ForgotPasswordController::class, 'page']))
             ->assertOk()
@@ -20,7 +22,7 @@ class ForgotPasswordControllerTest extends TestCase
             ->assertViewIs('auth.forgot-password');
     }
 
-    public function test_forgot_password_send_email_success()
+    public function test_it_handle_success(): void
     {
         Event::fake();
         Notification::fake();
@@ -39,5 +41,15 @@ class ForgotPasswordControllerTest extends TestCase
             ->assertRedirect();
 
         Notification::assertSentTo($user, ResetPasswordNotification::class);
+    }
+
+    public function test_it_handle_fail(): void
+    {
+        $this->assertDatabaseMissing('users', $this->testCredentional);
+
+        $this->post(action([ForgotPasswordController::class, 'handle']), $this->testCredentional)
+            ->assertInvalid('email');
+
+        Notification::assertNothingSent();
     }
 }

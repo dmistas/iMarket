@@ -44,7 +44,7 @@ class SignUpControllerTest extends TestCase
             ->first();
     }
 
-    public function test_it_page_success()
+    public function test_it_page_success(): void
     {
         $this->get(action([SignUpController::class, 'page']))
             ->assertOk()

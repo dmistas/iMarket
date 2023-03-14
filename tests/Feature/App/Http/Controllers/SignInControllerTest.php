@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class SignInControllerTest extends TestCase
 {
-    public function test_it_login_page_success()
+    public function test_it_login_page_success(): void
     {
         $this->get(action([SignInController::class, 'page']))
             ->assertOk()
@@ -17,7 +17,7 @@ class SignInControllerTest extends TestCase
             ->assertViewIs('auth.login');
     }
 
-    public function test_sign_in_success()
+    public function test_sign_in_success(): void
     {
         $password = '123456789';
 
@@ -40,7 +40,7 @@ class SignInControllerTest extends TestCase
 
     }
 
-    public function test_logout_success()
+    public function test_logout_success(): void
     {
         $user = UserFactory::new()->create([
             'email' => 'test@mail.ru',
@@ -52,7 +52,7 @@ class SignInControllerTest extends TestCase
         $this->assertGuest();
     }
 
-    public function it_logout_guest_fail()
+    public function it_logout_guest_fail(): void
     {
         $this->delete(action([SignInController::class, 'logout']))
             ->assertRedirect(route('home'));
