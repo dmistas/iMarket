@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignUpFormRequest;
 use Domain\Auth\Contracts\RegisterNewUserContract;
+use Domain\Auth\DTOs\NewUserDTO;
 use Illuminate\Http\RedirectResponse;
 
 class SignUpController extends Controller
@@ -17,13 +18,12 @@ class SignUpController extends Controller
 
     public function handle(SignUpFormRequest $request, RegisterNewUserContract $action): RedirectResponse
     {
-        // TODO make DTOs
+
         try {
-            $action($request->validated());
+            $action(NewUserDTO::fromRequest($request));
         } catch (\Exception $e) {
             logger()->error('Error within RegisterNewUserAction', ['exception' => $e]);
         }
-
 
         return redirect()
             ->intended(route('home'));

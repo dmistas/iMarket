@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers;
+namespace Tests\Feature\App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Auth\SocialAuthController;
 use Database\Factories\UserFactory;
@@ -10,6 +10,9 @@ use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Mockery\MockInterface;
 use Tests\TestCase;
+use function action;
+use function route;
+use function str;
 
 class SocialAuthControllerTest extends TestCase
 {

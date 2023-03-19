@@ -27,7 +27,7 @@ class Brand extends Model
     public function scopeHomePage(Builder $query)
     {
         $query->where('on_home_page', true)
-            ->where('on_home_page', true)
+            ->orderBy('sorting')
             ->limit(6);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers;
+namespace Tests\Feature\App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Requests\ResetPasswordFormRequest;
@@ -8,6 +8,8 @@ use Database\Factories\UserFactory;
 use Domain\Auth\Models\User;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
+use function action;
+use function route;
 
 class ResetPasswordControllerTest extends TestCase
 {
