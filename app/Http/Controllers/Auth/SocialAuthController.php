@@ -13,6 +13,10 @@ class SocialAuthController extends Controller
 {
     public function redirect(string $driver): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
     {
+        if ($driver !== 'github') {
+            throw new DomainException('Driver not support');
+        }
+
         try {
             return Socialite::driver($driver)
                 ->redirect();
@@ -30,11 +34,11 @@ class SocialAuthController extends Controller
 
         $user = User::updateOrCreate(
             [
-                $driver . '_id' => $githubUser->id,
+                $driver . '_id' => $githubUser->getId(),
             ],
             [
-                'name' => $githubUser->name,
-                'email' => $githubUser->email,
+                'name' => $githubUser->getName(),
+                'email' => $githubUser->getEmail(),
                 'password' => bcrypt(str()->random(20)),
             ]);
 
