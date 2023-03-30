@@ -1,21 +1,26 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Catalog\Models;
 
-use App\Traits\Models\HasSlug;
+use App\Models\Product;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Support\Traits\Models\HasSlug;
+use Support\Traits\Models\HasThumbnail;
 
-class Category extends Model
+
+class Brand extends Model
 {
     use HasFactory;
     use HasSlug;
+    use HasThumbnail;
 
     protected $fillable = [
-        'title',
         'slug',
+        'title',
+        'thumbnail',
         'on_home_page',
         'sorting',
     ];
@@ -27,8 +32,13 @@ class Category extends Model
             ->limit(6);
     }
 
-    public function products(): BelongsToMany
+    public function products(): HasMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Product::class);
+    }
+
+    protected function thumbnailDir(): string
+    {
+        return 'brands';
     }
 }

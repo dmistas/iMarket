@@ -11,6 +11,10 @@ class DomainServiceProvider extends ServiceProvider
         $this->app->register(
             \Domain\Auth\Providers\AuthServiceProvider::class
         );
+
+        $this->app->register(
+            \Domain\Catalog\Providers\CatalogServiceProvider::class
+        );
     }
 
 }
