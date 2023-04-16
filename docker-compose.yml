@@ -4,12 +4,12 @@ services:
     nginx:
         image: nginx:latest
         volumes:
-            -   ./:/var/www
+            - ./:/var/www
             - ./.docker/nginx/conf.d:/etc/nginx/conf.d
         ports:
-            -   80:80
+            - 80:80
         depends_on:
-            -   app
+            - app
         container_name: imarket-nginx
         networks:
             - imarket_network
@@ -18,14 +18,25 @@ services:
             context: .
             dockerfile: .docker/app/Dockerfile
         volumes:
-            -   ./:/var/www
+            - ./:/var/www
         container_name: imarket_app
         depends_on:
-            -   db
+            - db
+            - cache
         networks:
             - imarket_network
         extra_hosts:
             - "host.docker.internal:host-gateway"
+    cache:
+        image: redis:7.0-alpine
+        container_name: imarket-cache
+        restart: unless-stopped
+        ports:
+            - '6379:6379'
+        volumes:
+            - cache:/data
+        networks:
+            - imarket_network
 
     db:
         image: mysql:8.0
@@ -46,3 +57,4 @@ networks:
 
 volumes:
     imarketdb:
+    cache:
