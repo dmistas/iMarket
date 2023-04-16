@@ -21,7 +21,7 @@ class Price implements Stringable
     )
     {
         if ($value < 0) {
-            throw new InvalidArgumentException('Price mustbe more than zero');
+            throw new InvalidArgumentException('Price must be more than zero');
         }
 
         if (!isset($this->currencies[$currency])) {
