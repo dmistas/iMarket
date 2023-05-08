@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Listeners\SendEmailNewUserListener;
 use App\Observers\BrandObserver;
 use App\Observers\CategoryObserver;
+use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -33,7 +34,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Category::observe(CategoryObserver::class);
-        Category::observe(BrandObserver::class);
+        Brand::observe(BrandObserver::class);
     }
 
     /**
