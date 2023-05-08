@@ -4,6 +4,7 @@ namespace Domain\Catalog\ViewModels;
 
 use Domain\Catalog\Models\Brand;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Support\Traits\Makeable;
 
 class BrandViewModel
@@ -12,8 +13,12 @@ class BrandViewModel
 
     public function homePage(): Collection|array
     {
-        return Brand::query()
-            ->homePage()
-            ->get();
+        return Cache::tags(['brand'])
+            ->rememberForever('brand_home_page', function () {
+                return Brand::query()
+                    ->homePage()
+                    ->get();
+            });
+
     }
 }
