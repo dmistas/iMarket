@@ -17,6 +17,9 @@ class RefreshCommand extends Command
         if (app()->isProduction()) {
             return self::FAILURE;
         }
+
+        $this->call('cache:clear');
+
         Storage::deleteDirectory('images/products');
         Storage::deleteDirectory('images/brands');
 
